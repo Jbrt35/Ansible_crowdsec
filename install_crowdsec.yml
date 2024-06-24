@@ -1,1 +1,88 @@
+---
+- name: Install and configure CrowdSec
+  hosts: crowdsec
+  become: yes
+  tasks:
+    - name: Add CrowdSec repository and install CrowdSec (Debian/Ubuntu)
+      shell: |
+        curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
+        sudo apt install -y crowdsec
+      when: ansible_os_family == "Debian"
+
+    - name: Start and enable CrowdSec service
+      service:
+        name: crowdsec
+        state: started
+        enabled: yes
+
+    - name: collections
+      copy:
+        src: collections/
+        dest: /etc/crowdsec/collections/
+        owner: root
+        group: root
+        mode: 0644
+        remote_src: no
+      notify: Restart CrowdSec
+
+    - name: scenarios
+      copy:
+        src: scenarios/
+        dest: /etc/crowdsec/scenarios
+        owner: root
+        group: root
+        mode: 0644
+        remote_src: no
+      notify: restart CrowdSec
+
+    - name: Install CrowdSec collection for WordPress
+      shell: cscli collections install crowdsecurity/wordpress
+      notify: Reload CrowdSec
+
+    - name: Install CrowdSec bouncers
+      shell: |
+        cscli bouncers install crowdsecurity/cs-iptables-bouncer
+        cscli bouncers install crowdsecurity/cs-firewall-bouncer
+      notify: Restart CrowdSec
+
+    - name: Install parsers apache2
+      shell: cscli parsers install crowdsecurity/apache2-logs
+      notify: Restart CrowdSec
+
+    - name: Copy and modify acquis.yaml
+      copy:
+        src: acquis.yaml
+        dest: /etc/crowdsec/acquis.yaml
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart CrowdSec
+
+    - name: Remove private IP addresses from whitelists.yaml
+      become: yes
+      ansible.builtin.lineinfile:
+        path: /etc/crowdsec/parsers/s02-enrich/whitelists.yaml
+        state: absent
+        regexp: '^(private_network|10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.)'
+      notify: Restart CrowdSec
+
+    - name: parsers
+      copy:
+        src: parsers/
+        dest: /etc/crowdsec/parsers/
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart CrowdSec
+
+  handlers:
+    - name: Restart CrowdSec
+      service:
+        name: crowdsec
+        state: restarted
+
+    - name: Reload CrowdSec
+      service:
+        name: crowdsec
+        state: reloaded
 
