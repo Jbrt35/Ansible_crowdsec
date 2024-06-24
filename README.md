@@ -17,9 +17,10 @@ crowdsec_ansible/
 ├── acquis.yaml
 ├── hosts.ini
 └── install_crowdsec.yml
+```
 
 # Lancement du script Ansible
-
+```
 sudo ansible-playbook -i hosts.ini install_crowdsec.yml
-
+```
 La seule action manuelle de l'utilisateur est l'ajout du jeton API généré par le bouncer Wordpress au plugin CrowdSec de Wordpress
