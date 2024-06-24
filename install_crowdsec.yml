@@ -15,25 +15,25 @@
         state: started
         enabled: yes
 
-    - name: collections
+    - name: Copy CrowdSec collections
       copy:
-        src: collections/
+        src: collection/  # Mettez le chemin correct ici
         dest: /etc/crowdsec/collections/
         owner: root
         group: root
         mode: 0644
-        remote_src: no
+        remote_src: yes
       notify: Restart CrowdSec
 
-    - name: scenarios
+    - name: Copy CrowdSec scenarios
       copy:
-        src: scenarios/
-        dest: /etc/crowdsec/scenarios
+        src: scenarios/  # Mettez le chemin correct ici
+        dest: /etc/crowdsec/scenarios/
         owner: root
         group: root
         mode: 0644
-        remote_src: no
-      notify: restart CrowdSec
+        remote_src: yes
+      notify: Restart CrowdSec
 
     - name: Install CrowdSec collection for WordPress
       shell: cscli collections install crowdsecurity/wordpress
@@ -41,8 +41,8 @@
 
     - name: Install CrowdSec bouncers
       shell: |
-        cscli bouncers install crowdsecurity/cs-iptables-bouncer
-        cscli bouncers install crowdsecurity/cs-firewall-bouncer
+        cscli bouncers add wordpress-bouncer
+        cscli bouncers add crowdsec-firewall-bouncer-iptables
       notify: Restart CrowdSec
 
     - name: Install parsers apache2
@@ -66,13 +66,14 @@
         regexp: '^(private_network|10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.)'
       notify: Restart CrowdSec
 
-    - name: parsers
+    - name: Copy parsers
       copy:
         src: parsers/
-        dest: /etc/crowdsec/parsers/
+        dest: /etc/crowdsec/parsers/s01-parse/
         owner: root
         group: root
         mode: 0644
+        remote_src: yes
       notify: Restart CrowdSec
 
   handlers:
@@ -85,4 +86,3 @@
       service:
         name: crowdsec
         state: reloaded
-
