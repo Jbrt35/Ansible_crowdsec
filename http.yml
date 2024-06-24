@@ -1,0 +1,16 @@
+type: http # Type de notification
+
+name: http_elk # this must match with the registered plugin in the profile
+log_level: trace # Options include: trace, debug, info, warn, error, off
+
+format: |-
+ {{ range .}}
+  {"index": { "_index": "crowdsec"} }
+  {{.|toJson}}
+ {{ end }}
+
+url: http://localhost:9200/_bulk # ElasticSearch IP
+
+method: POST
+headers:
+ Content-Type: "application/json"
