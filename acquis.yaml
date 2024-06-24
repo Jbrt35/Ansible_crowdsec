@@ -1,1 +1,22 @@
-
+filenames:
+  - /home/honeypot/cowrie/var/log/cowrie/cowrie.log
+labels:
+  type: cowrie
+---
+filenames:
+  - /var/log/apache2/access.log
+  - /var/log/apache2/other_vhosts_access.log
+  - /var/log/apache2/error.log
+labels:
+  type: apache2
+---
+filenames:
+  - /var/log/auth.log
+labels:
+  type: syslog
+---
+filenames:
+  - /var/log/syslog
+  - /var/log/kern.log
+labels:
+  type: syslog
