@@ -76,6 +76,22 @@
         remote_src: yes
       notify: Restart CrowdSec
 
+    - name: Update http.yml for Elasticsearch notifications
+      copy:
+        src: http.yml
+        dest: /etc/crowdsec/notifications/http.yml
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart CrowdSec
+
+    - name: Update profiles.yaml for Elasticsearch notifications
+      ansible.builtin.lineinfile:
+        path: /etc/crowdsec/profiles.yaml
+        insertafter: EOF
+        line: "   - http_elk # name of notification"
+      notify: Reload CrowdSec
+
   handlers:
     - name: Restart CrowdSec
       service:
