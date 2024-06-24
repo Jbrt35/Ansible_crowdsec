@@ -2,28 +2,19 @@
 Script Ansible pour le déploiement automatisé de CrowdSec avec l'installation des collections HoneyGuard/cowrie et des collections WordPress. Le script prend également en compte la gestion des bouncers. 
 
 # Architecture 
+
+```plaintext
 crowdsec_ansible/
-
 ├── collections/
-
-    └── cowrie.yaml
-    
-    └── detection_code.yaml
-    
+│   ├── cowrie.yaml
+│   └── detection_code.yaml
 ├── scenarios/
-
-    └── cowrie.yaml
-    
-    └── detection_code.yaml
-    
+│   ├── cowrie.yaml
+│   └── detection_code.yaml
 ├── parsers/
-
 │   └── cowrie.yaml
-
-    └── detection_code.yaml
-    
+|   └── detection_code.yaml
 ├── acquis.yaml
-
 ├── hosts.ini
 └── install_crowdsec.yml
 
