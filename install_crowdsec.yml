@@ -89,7 +89,7 @@
       ansible.builtin.lineinfile:
         path: /etc/crowdsec/profiles.yaml
         insertafter: EOF
-        line: "   - http_elk # name of notification"
+        line: "    - http_elk # name of notification"
       notify: Reload CrowdSec
 
   handlers:
