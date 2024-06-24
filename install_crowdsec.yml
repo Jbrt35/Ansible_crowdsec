@@ -17,7 +17,7 @@
 
     - name: Copy CrowdSec collections
       copy:
-        src: collection/  # Mettez le chemin correct ici
+        src: collections/
         dest: /etc/crowdsec/collections/
         owner: root
         group: root
@@ -27,7 +27,7 @@
 
     - name: Copy CrowdSec scenarios
       copy:
-        src: scenarios/  # Mettez le chemin correct ici
+        src: scenarios/
         dest: /etc/crowdsec/scenarios/
         owner: root
         group: root
