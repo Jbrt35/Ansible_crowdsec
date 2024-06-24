@@ -21,6 +21,11 @@ crowdsec_ansible/
 ```
 
 # Lancement du script Ansible
+Clonage du dépot Github:
+```
+git clone https://github.com/Jbrt35/Ansible_crowdsec.git
+cd Ansible_crowdsec
+```
 ```
 sudo ansible-playbook -i hosts.ini install_crowdsec.yml
 ```
