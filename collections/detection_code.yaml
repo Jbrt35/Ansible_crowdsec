@@ -1,1 +1,13 @@
-
+parsers:
+  - Honeyguard/detection_code_attempts
+  - crowdsecurity/dateparse-enrich
+  - crowdsecurity/geoip-enrich
+scenarios:
+  - Honeyguard/detection_code_attempts
+description: "parser and detection of detection code on cowrie"
+author: HoneyGuard
+tags:
+  - linux
+  - ssh
+  - brute-force
+  - cowrie
