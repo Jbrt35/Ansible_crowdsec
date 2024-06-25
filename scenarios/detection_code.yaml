@@ -1,1 +1,13 @@
-
+type: leaky
+debug: yes
+name: Honeyguard/detection_code_attempts
+description: "Detection of 3 attempts to execute code in Cowrie Honeypot"
+filter: "evt.Meta.log_type == 'cowrie_command_attempt'"
+capacity: 3
+leakspeed: 10s
+blackhole: 1m
+groupby: "evt.Meta.source_ip"
+labels:
+  service: cowrie
+  type: bruteforce
+  remediation: true
