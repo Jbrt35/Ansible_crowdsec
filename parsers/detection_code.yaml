@@ -1,7 +1,7 @@
 onsuccess: next_stage
-filter: "evt.Parsed.program == 'detection_code_attempts'"
-name: Kornelius777/detection_code_attempts
-debug: yes
+filter: "evt.Parsed.program == 'cowrie'"
+name: Honeyguard/detection_code_attempts
+debug: true
 description: "Parse Cowrie Honeypot logs"
 pattern_syntax:
   COWRIE_COMMAND_ATTEMPT: '%{TIMESTAMP_ISO8601:timestamp} \[HoneyPotSSHTransport,%{NUMBER},%{IP:source_ip}\] Command found: %{GREEDYDATA:command}'
