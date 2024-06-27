@@ -41,8 +41,7 @@
 
     - name: Install CrowdSec bouncers
       shell: |
-        cscli bouncers add wordpress-bouncer
-        cscli bouncers add crowdsec-firewall-bouncer-iptables
+        sudo apt install crowdsec-firewall-bouncer-iptables
       notify: Restart CrowdSec
 
     - name: Install parsers apache2
