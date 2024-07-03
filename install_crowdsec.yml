@@ -100,7 +100,7 @@
       ansible.builtin.lineinfile:
         path: /etc/crowdsec/profiles.yaml
         insertafter: EOF
-        line: "    - http_elk
+        line: "    - http_elk"
       notify: Reload CrowdSec
 
   handlers:
